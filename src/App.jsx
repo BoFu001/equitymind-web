@@ -28,7 +28,11 @@ function App() {
       const data = JSON.parse(event.data)
 
       if (data.type === 'progress') {
-        setProgress(prev => [...prev, data.message])
+          setProgress(prev => [...prev, { message: data.message, isSub: false }])
+      }
+
+      if (data.type === 'sub_progress') {
+          setProgress(prev => [...prev, { message: data.message, isSub: true }])
       }
 
       if (data.type === 'token') {

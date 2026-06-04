@@ -5,9 +5,20 @@ function ProgressPanel({ messages, isStreaming }) {
         Agent Progress
       </h3>
       <div className="space-y-2">
-        {messages.map((message, index) => {
+        {messages.map((item, index) => {
+          const message = typeof item === 'string' ? item : item.message
+          const isSub = typeof item === 'object' && item.isSub
           const isLast = index === messages.length - 1
-          const isActive = isLast && isStreaming
+          const isActive = isLast && isStreaming && !isSub
+
+          if (isSub) {
+            return (
+              <div key={index} className="flex items-center gap-2 ml-6">
+                <span className="text-teal-600 text-xs">↳</span>
+                <span className="text-gray-500 text-xs">{message}</span>
+              </div>
+            )
+          }
 
           return (
             <div key={index} className="flex items-center gap-2">
