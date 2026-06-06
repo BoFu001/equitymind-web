@@ -44,7 +44,7 @@ function App() {
         setHistory(prev => [{
           question,
           report,
-          ticker: data.ticker,
+          ticker: data.tickers?.[0],
           intent: data.intent,
           timestamp: new Date().toLocaleTimeString()
         }, ...prev])
