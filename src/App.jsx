@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar'
 import QueryInput from './components/QueryInput'
 import ProgressPanel from './components/ProgressPanel'
 import ReportPanel from './components/ReportPanel'
+import { WS_URL } from './config'
 
 function App() {
   const [history, setHistory] = useState([])
@@ -18,7 +19,7 @@ function App() {
     setReport('')
     setIsStreaming(true)
 
-    const ws = new WebSocket('wss://equitymind.up.railway.app/api/v1/query/stream')
+    const ws = new WebSocket(WS_URL)
 
     ws.onopen = () => {
       ws.send(JSON.stringify({ question }))
