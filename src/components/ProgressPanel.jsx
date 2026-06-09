@@ -1,3 +1,5 @@
+import { CheckIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
+
 function ProgressPanel({ messages, isStreaming }) {
   const lastIndex = messages.length - 1
 
@@ -10,7 +12,6 @@ function ProgressPanel({ messages, isStreaming }) {
           const isLast = index === lastIndex
           const isLastSub = isLast && isSub && isStreaming
 
-          // Check if this node has any sub items after it
           const hasActiveSubs = !isSub && isStreaming && (() => {
             for (let i = index + 1; i < messages.length; i++) {
               if (!messages[i].isSub) break
@@ -26,11 +27,9 @@ function ProgressPanel({ messages, isStreaming }) {
             return (
               <div key={index} className="flex items-center gap-2 ml-6">
                 {isLastSub ? (
-                  <div className="w-2 h-2 rounded-full border-2 border-teal-500 border-t-transparent animate-spin" />
+                  <ArrowPathIcon className="w-3 h-3 text-teal-500 animate-spin" />
                 ) : (
-                  <div className="w-2 h-2 rounded-full bg-teal-600 flex items-center justify-center">
-                    <span className="text-white" style={{fontSize: '8px'}}>✓</span>
-                  </div>
+                  <CheckIcon className="w-3 h-3 text-teal-500" />
                 )}
                 <span className={`text-xs ${isLastSub ? 'text-teal-400' : 'text-gray-500'}`}>
                   {message}
@@ -42,11 +41,9 @@ function ProgressPanel({ messages, isStreaming }) {
           return (
             <div key={index} className="flex items-center gap-2">
               {isSpinning ? (
-                <div className="w-3 h-3 rounded-full border-2 border-teal-500 border-t-transparent animate-spin" />
+                <ArrowPathIcon className="w-4 h-4 text-teal-500 animate-spin" />
               ) : (
-                <div className="w-3 h-3 rounded-full bg-teal-500 flex items-center justify-center">
-                  <span className="text-white text-xs">✓</span>
-                </div>
+                <CheckIcon className="w-4 h-4 text-teal-500" />
               )}
               <span className={`text-xs ${isSpinning ? 'text-teal-400' : 'text-gray-400'}`}>
                 {message}

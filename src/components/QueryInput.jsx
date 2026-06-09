@@ -1,3 +1,4 @@
+import { ArrowUpIcon } from '@heroicons/react/24/outline'
 import { useState, useRef } from 'react'
 
 function QueryInput({ onSubmit, isStreaming }) {
@@ -39,9 +40,7 @@ function QueryInput({ onSubmit, isStreaming }) {
           {isStreaming ? (
             <div className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" />
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4 text-white">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5M5 12l7-7 7 7" />
-            </svg>
+            <ArrowUpIcon className="w-4 h-4 text-white" strokeWidth={2.5} />
           )}
         </button>
       </div>

@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@source "../node_modules/streamdown/dist";
+
 body, html {
   margin: 0;
   padding: 0;

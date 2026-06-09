@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import { useState, useRef } from 'react'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import QueryInput from './components/QueryInput'
@@ -11,6 +12,21 @@ function App() {
   const [turns, setTurns] = useState([])
   const [messages, setMessages] = useState([])
   const [isStreaming, setIsStreaming] = useState(false)
+
+
+
+  const mainRef = useRef(null)
+  const autoScroll = useRef(true)
+  const isScrollingProgrammatically = useRef(false)
+
+  const scrollToBottom = () => {
+    if (autoScroll.current && mainRef.current) {
+      isScrollingProgrammatically.current = true
+      mainRef.current.scrollTop = mainRef.current.scrollHeight
+      setTimeout(() => { isScrollingProgrammatically.current = false }, 50)
+    }
+  }
+
 
   // ── Helpers ──────────────────────────────────────────────
   const updateLastTurn = (updater) => {
@@ -35,6 +51,9 @@ function App() {
       progressOpen: true,
     }])
 
+    autoScroll.current = true
+    setTimeout(() => scrollToBottom(), 100)
+
     setIsStreaming(true)
 
     const ws = new WebSocket(WS_URL)
@@ -51,6 +70,7 @@ function App() {
           ...turn,
           progress: [...turn.progress, { message: data.message, isSub: false }]
         }))
+        scrollToBottom()
       }
 
       if (data.type === 'sub_progress') {
@@ -58,6 +78,7 @@ function App() {
           ...turn,
           progress: [...turn.progress, { message: data.message, isSub: true }]
         }))
+        scrollToBottom()
       }
 
       if (data.type === 'token') {
@@ -65,6 +86,7 @@ function App() {
           ...turn,
           report: turn.report + data.text
         }))
+        scrollToBottom()
       }
 
       if (data.type === 'done') {
@@ -107,7 +129,21 @@ function App() {
       <Sidebar turns={turns} />
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-y-auto overscroll-contain px-44 py-6 pb-2 space-y-6">
+        <main 
+          ref={mainRef}
+          className="flex-1 overflow-y-auto overscroll-contain px-44 py-6 pb-2 space-y-6"
+          onScroll={() => {
+            if (isScrollingProgrammatically.current) return
+            const el = mainRef.current
+            if (!el) return
+            const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 50
+            if (atBottom) {
+              autoScroll.current = true
+            } else {
+              autoScroll.current = false
+            }
+          }}
+        >
 
           {turns.length === 0 && (
             <div className="flex items-center justify-center h-full">
@@ -127,7 +163,6 @@ function App() {
                   {turn.question}
                 </div>
               </div>
-
               {/* Agent response — full width */}
               <div className="space-y-3">
 
@@ -145,16 +180,9 @@ function App() {
                       }`}>
                         {turn.isStreaming ? 'Researching...' : `Completed in ${turn.duration}s`}
                       </span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className={`w-4 h-4 text-gray-500 transition-transform ${turn.progressOpen || turn.isStreaming ? 'rotate-90' : ''}`}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-                      </svg>
+                      {!turn.isStreaming && (
+                        <ChevronRightIcon className={`w-4 h-4 text-gray-500 transition-transform ${turn.progressOpen ? 'rotate-90' : ''}`} />
+                      )}
                     </button>
 
                     {(turn.isStreaming || turn.progressOpen) && (
