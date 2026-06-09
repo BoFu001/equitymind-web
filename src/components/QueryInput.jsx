@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 function QueryInput({ onSubmit, isStreaming }) {
   const [question, setQuestion] = useState('')
+  const textareaRef = useRef(null)
 
   const handleSubmit = () => {
     if (!question.trim() || isStreaming) return
     onSubmit(question.trim())
     setQuestion('')
+    textareaRef.current?.focus()
   }
 
   const handleKeyDown = (e) => {
@@ -20,13 +22,14 @@ function QueryInput({ onSubmit, isStreaming }) {
     <div className="px-36 pt-0 pb-2">
        <div className="flex items-center bg-gray-900 border border-gray-700 rounded-full pl-4 pr-2 py-2 focus-within:border-teal-500 transition-colors">
         <textarea
+          ref={textareaRef}
           className="flex-1 bg-transparent text-white placeholder-gray-500 text-sm resize-none focus:outline-none pl-2"
           placeholder="Ask about any stock, comparison, or investment idea..."
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           onKeyDown={handleKeyDown}
           rows={1}
-          disabled={isStreaming}
+          autoFocus
         />
         <button
           onClick={handleSubmit}
