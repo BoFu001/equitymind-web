@@ -17,32 +17,33 @@ function QueryInput({ onSubmit, isStreaming }) {
   }
 
   return (
-    <div className="border-t border-gray-800 p-4">
-      <div className="flex gap-3 items-end">
+    <div className="px-36 pt-0 pb-2">
+       <div className="flex items-center bg-gray-900 border border-gray-700 rounded-full pl-4 pr-2 py-2 focus-within:border-teal-500 transition-colors">
         <textarea
-          className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 
-                     text-white placeholder-gray-500 text-sm resize-none
-                     focus:outline-none focus:border-teal-500 transition-colors"
+          className="flex-1 bg-transparent text-white placeholder-gray-500 text-sm resize-none focus:outline-none pl-2"
           placeholder="Ask about any stock, comparison, or investment idea..."
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           onKeyDown={handleKeyDown}
-          rows={2}
+          rows={1}
           disabled={isStreaming}
         />
         <button
           onClick={handleSubmit}
           disabled={!question.trim() || isStreaming}
-          className="bg-teal-500 hover:bg-teal-600 disabled:bg-gray-700 
-                     disabled:cursor-not-allowed text-white font-semibold 
-                     px-5 py-3 rounded-lg transition-colors text-sm"
+          className="ml-3 w-10 h-10 flex items-center justify-center rounded-full bg-teal-500 hover:bg-teal-600 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors flex-shrink-0"
         >
-          {isStreaming ? 'Analysing...' : 'Analyse'}
+          {isStreaming ? (
+            <div className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" />
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4 text-white">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+          )}
         </button>
       </div>
       <p className="text-gray-600 text-xs mt-2 text-center">
-        EquityMind uses SEC filings, live market data, and news sentiment. 
-        Not financial advice.
+        EquityMind uses SEC filings, live market data, and news sentiment. Not financial advice.
       </p>
     </div>
   )

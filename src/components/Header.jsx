@@ -1,6 +1,6 @@
 function Header() {
   return (
-    <header className="border-b border-gray-800 px-6 py-4 flex items-center gap-3">
+    <header className="px-6 h-[56px] flex items-center gap-3">
       <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
         <span className="text-white font-bold text-sm">E</span>
       </div>

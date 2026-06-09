@@ -2,11 +2,8 @@ function ProgressPanel({ messages, isStreaming }) {
   const lastIndex = messages.length - 1
 
   return (
-    <div className="mb-6 bg-gray-900 rounded-lg p-4 border border-gray-800">
-      <h3 className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">
-        Agent Progress
-      </h3>
-      <div className="space-y-2">
+    <div className="p-0">
+      <div className="space-y-1">
         {messages.map((item, index) => {
           const message = typeof item === 'string' ? item : item.message
           const isSub = typeof item === 'object' && item.isSub
@@ -51,7 +48,7 @@ function ProgressPanel({ messages, isStreaming }) {
                   <span className="text-white text-xs">✓</span>
                 </div>
               )}
-              <span className={`text-sm ${isSpinning ? 'text-teal-400' : 'text-gray-400'}`}>
+              <span className={`text-xs ${isSpinning ? 'text-teal-400' : 'text-gray-400'}`}>
                 {message}
               </span>
             </div>
