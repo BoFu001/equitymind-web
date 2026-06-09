@@ -1,4 +1,3 @@
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useState, useRef } from 'react'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
@@ -168,33 +167,13 @@ function App() {
 
                 {/* Progress panel — collapsible for past turns */}
                 {turn.progress.length > 0 && (
-                  <div className="rounded-none">
-                    <button
-                      onClick={() => toggleProgress(index)}
-                      className="w-full flex items-center gap-2 px-4 py-2 text-left"
-                    >
-                      <span className={`text-sm font-normal ${
-                        turn.isStreaming 
-                          ? 'text-teal-400 animate-pulse' 
-                          : 'text-gray-400'
-                      }`}>
-                        {turn.isStreaming ? 'Researching...' : `Completed in ${turn.duration}s`}
-                      </span>
-                      {!turn.isStreaming && (
-                        <ChevronRightIcon className={`w-4 h-4 text-gray-500 transition-transform ${turn.progressOpen ? 'rotate-90' : ''}`} />
-                      )}
-                    </button>
-
-                    {(turn.isStreaming || turn.progressOpen) && (
-                      <div className="px-4 pb-3">
-                        <ProgressPanel
-                          messages={turn.progress}
-                          isStreaming={turn.isStreaming}
-                          noBorder={true}
-                        />
-                      </div>
-                    )}
-                  </div>
+                  <ProgressPanel
+                    messages={turn.progress}
+                    isStreaming={turn.isStreaming}
+                    duration={turn.duration}
+                    progressOpen={turn.progressOpen}
+                    onToggle={() => toggleProgress(index)}
+                  />
                 )}
 
                 {/* Report */}
